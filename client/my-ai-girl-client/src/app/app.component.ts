@@ -44,6 +44,21 @@ export class AppComponent {
     this.recongnition.onresult = (event: any) => {
       const transcript = event.results[0][0].transcript;
       this.transcript = transcript;
+      console.log(transcript);
     };
+
+    this.recongnition.onend = (event: any) => {
+      this.listening = false;
+    }
+  } 
+
+  startListening () {
+    this.listening = true;
+    this.recongnition.start();
+  }
+
+  stopListening () {
+    this.listening = false;
+    this.recongnition.stop();
   }
 }
