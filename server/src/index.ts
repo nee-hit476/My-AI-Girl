@@ -1,9 +1,14 @@
 import express from 'express';
 import transcriptRoute from './routes/transcript.route.js';
+import cors from 'cors';
 
 const app = express();
 const port = process.env.PORT || 3000;
 
+app.use(cors({
+  origin: '*',
+  credentials: true
+}))
 app.use(express.json())
 
 app.get('/', (req, res) => {

@@ -1,8 +1,9 @@
 import express from 'express';
-import { handleAiGirlAudioStream } from '../controllers/transcript.controller.js';
+import { handleAiGirlAudioStream, handleAiGirlSpeakAudioStream } from '../controllers/transcript.controller.js';
 
 const router = express.Router();
 
-router.get('/', handleAiGirlAudioStream);
+router.post('/', handleAiGirlAudioStream);
+router.post('/speaker', handleAiGirlSpeakAudioStream);
 
 export default router;
