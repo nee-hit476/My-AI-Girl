@@ -41,7 +41,7 @@ export class AppComponent {
     }
 
     this.recongnition = new SpeechRecognitionConstructor();
-    this.recongnition.lang = 'en-US';
+    this.recongnition.lang = 'en-IN';
     this.recongnition.interimResults = true;
     this.recongnition.maxAlternatives = 1;
     this.recongnition.continuous = false;
@@ -70,9 +70,19 @@ export class AppComponent {
     console.log(girlFriendTranscript.data.candidates[0].content.parts[0].text);
 
     const audioURl = await axios.post(`http://localhost:3000/audio/transcript/speaker?text=${girlFriendTranscript.data.candidates[0].content.parts[0].text}`);
-    this.audio = new Audio((audioURl as any).data.url);
-    this.audioPlayerRef.nativeElement.play();
+    if ((audioURl as any).error) {
+      console.error((audioURl as any).error.message);
+      return; // Stop — don’t try to play broken audio
+    }
 
+    console.log((audioURl as any).data.audioFile);
+    this.audio = (audioURl as any).data.audioFile;
+    // this.audio = `data:audio/mpeg;base64,${(audioURl as any).data.audioBase64}`;
+    // console.log(this.audio);
+
+    //  const audio = new Audio(this.audio);
+    // audio.autoplay = true; // auto start
+    // audio.play().catch(err => console.error("Autoplay failed:", err));
   }
 
 }
